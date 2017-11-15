@@ -388,7 +388,7 @@ def pvp(computergame):
     os.system("clear")
     if computergame == False:
         print("SHIPS PLACED\n")
-    battleBoard(board2placed)
+        battleBoard(board2placed)
 
     while True:
         start = input("\nPress enter to start")
@@ -431,7 +431,7 @@ def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board, comput
             try:
                 x_coordinate = int(input("\nChoose an x coordinate to shoot at:"))
                 y_coordinate = int(input("Choose a y coordinate to shoot at:"))
-                if board[y_coordinate][x_coordinate] == "X" or board[y_coordinate][x_coordinate] == "0":
+                if board[y_coordinate][x_coordinate] == "X" or board[y_coordinate][x_coordinate] == "O":
                     print("You have already shot here")
                     continue
             except ValueError:
@@ -440,7 +440,7 @@ def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board, comput
         else:
             x_coordinate = random.randint(1, 10)
             y_coordinate = random.randint(1, 10)
-            if board[y_coordinate][x_coordinate] == "X" or board[y_coordinate][x_coordinate] == "0":
+            if board[y_coordinate][x_coordinate] == "X" or board[y_coordinate][x_coordinate] == "O":
                 continue
 
         if (x_coordinate > 10 or x_coordinate < 0) or (y_coordinate < 0 or y_coordinate > 10):
