@@ -315,7 +315,7 @@ def pvp(computergame):
         player_two = input("Player two, type in your name: ")
         os.system("clear")
     else:
-        player_two="CPU"
+        player_two = "CPU"
         os.system("clear")
     num = 1
     count = 0
@@ -427,16 +427,21 @@ def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board, comput
     battleBoard(board)
     global destroyed
     while True:
-        if computergame==False:
+        if computergame == False:
             try:
                 x_coordinate = int(input("\nChoose an x coordinate to shoot at:"))
                 y_coordinate = int(input("Choose a y coordinate to shoot at:"))
+                if board[y_coordinate][x_coordinate] == "X" or board[y_coordinate][x_coordinate] == "0":
+                    print("You have already shot here")
+                    continue
             except ValueError:
                 print("Wrong input")
                 continue
         else:
-            x_coordinate=random.randint(1,10)
-            y_coordinate=random.randint(1,10)
+            x_coordinate = random.randint(1, 10)
+            y_coordinate = random.randint(1, 10)
+            if board[y_coordinate][x_coordinate] == "X" or board[y_coordinate][x_coordinate] == "0":
+                continue
 
         if (x_coordinate > 10 or x_coordinate < 0) or (y_coordinate < 0 or y_coordinate > 10):
             print("Wrong input")
@@ -452,7 +457,7 @@ def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board, comput
     if destroyed == 1:
         print("\nShip destroyed\n")
         destroyed = 0
-    if computergame==True:
+    if computergame == True:
         print("\nCPU's shot")
     passTurn = input("\nPress enter to pass turn")
     if passTurn == "":
