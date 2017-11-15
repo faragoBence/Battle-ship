@@ -307,7 +307,7 @@ def menu():
 
 def pvp(computergame):
     global destroyed
-    asd = False
+    human = False
     os.system("clear")
     player_one = input("Player one, type in your name: ")
     os.system("clear")
@@ -321,27 +321,27 @@ def pvp(computergame):
     count = 0
     # 1st player placing
     print(player_one + " , PLACE YOUR SHIPS\n")
-    firstcoordinates(board1placed, p1_s1, num, asd)  # 1 unit ship
+    firstcoordinates(board1placed, p1_s1, num, human)  # 1 unit ship
     num += 1
 
     os.system("clear")
     print(player_one + " , PLACE YOUR SHIPS\n")
-    firstcoordinates(board1placed, p1_s2, num, asd)  # 2 unit ship
+    firstcoordinates(board1placed, p1_s2, num, human)  # 2 unit ship
     num += 1
 
     os.system("clear")
     print(player_one + " , PLACE YOUR SHIPS\n")
-    firstcoordinates(board1placed, p1_s3, num, asd)  # 3 unit ship
+    firstcoordinates(board1placed, p1_s3, num, human)  # 3 unit ship
 
     os.system("clear")
     print(player_one + " , PLACE YOUR SHIPS\n")
-    firstcoordinates(board1placed, p1_s3v2, num, asd)  # 3 unit ship
+    firstcoordinates(board1placed, p1_s3v2, num, human)  # 3 unit ship
 
     num += 1
 
     os.system("clear")
     print(player_one + " , PLACE YOUR SHIPS\n")
-    firstcoordinates(board1placed, p1_s4, num, asd)  # 4 unit ship
+    firstcoordinates(board1placed, p1_s4, num, human)  # 4 unit ship
     num += 1
 
     os.system("clear")
@@ -401,14 +401,14 @@ def pvp(computergame):
     if_winning = 0
     while if_winning == 0:
         while player == 1:
-            shooting_phase(player_one, p2_s1, p2_s2, p2_s3, p2_s4, p2_s3v2, board2)
+            shooting_phase(player_one, p2_s1, p2_s2, p2_s3, p2_s4, p2_s3v2, board2,human)
             if winning(player_one, p2_s1, p2_s2, p2_s3, p2_s4, p2_s3v2, turn_count):
                 if_winning += 1
                 break
             player += 1
             turn_count += 1
         while player == 2:
-            shooting_phase(player_two, p1_s1, p1_s2, p1_s3, p1_s4, p1_s3v2, board1)
+            shooting_phase(player_two, p1_s1, p1_s2, p1_s3, p1_s4, p1_s3v2, board1,computergame)
             if winning(player_two, p1_s1, p1_s2, p1_s3, p1_s4, p1_s3v2, turn_count):
                 if_winning += 1
                 break
@@ -416,7 +416,7 @@ def pvp(computergame):
             turn_count += 1
 
 
-def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board):
+def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board, computergame):
     print("\n" + player_name + ", SHOOT!")
     print("""
             X   =  Hit
@@ -427,12 +427,16 @@ def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board):
     battleBoard(board)
     global destroyed
     while True:
-        try:
-            x_coordinate = int(input("\nChoose an x coordinate to shoot at:"))
-            y_coordinate = int(input("Choose a y coordinate to shoot at:"))
-        except ValueError:
-            print("Wrong input")
-            continue
+        if computergame==False:
+            try:
+                x_coordinate = int(input("\nChoose an x coordinate to shoot at:"))
+                y_coordinate = int(input("Choose a y coordinate to shoot at:"))
+            except ValueError:
+                print("Wrong input")
+                continue
+        else:
+            x_coordinate=random.randint(1,10)
+            y_coordinate=random.randint(1,10)
 
         if (x_coordinate > 10 or x_coordinate < 0) or (y_coordinate < 0 or y_coordinate > 10):
             print("Wrong input")
@@ -448,6 +452,8 @@ def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board):
     if destroyed == 1:
         print("\nShip destroyed\n")
         destroyed = 0
+    if computergame==True:
+        print("\nCPU's shot")
     passTurn = input("\nPress enter to pass turn")
     if passTurn == "":
         os.system('clear')
