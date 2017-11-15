@@ -186,7 +186,7 @@ def firstcoordinates(gameBoard, ship, num, computergame):  # put first coordinat
         ship[0].append(x)
         ship[0].append(y)
     elif num > 1:
-        wayinput(gameBoard, ship, num, y, x,computergame)
+        wayinput(gameBoard, ship, num, y, x, computergame)
 
 
 def battleBoard(p):  # printing out the game board
@@ -303,17 +303,19 @@ def menu():
 
         except IndexError:
             continue
-        
 
 
 def pvp(computergame):
     global destroyed
-    asd=False
+    asd = False
     os.system("clear")
     player_one = input("Player one, type in your name: ")
     os.system("clear")
     if computergame == False:
         player_two = input("Player two, type in your name: ")
+        os.system("clear")
+    else:
+        player_two="CPU"
         os.system("clear")
     num = 1
     count = 0
@@ -345,10 +347,10 @@ def pvp(computergame):
     os.system("clear")
     print("SHIPS PLACED\n")
     battleBoard(board1placed)
-    num=1
+    num = 1
 
     while True:
-        player_change=input("Press enter to continue")
+        player_change = input("Press enter to continue")
         if player_change == "":
             os.system('clear')
             break
@@ -386,17 +388,17 @@ def pvp(computergame):
     os.system("clear")
     if computergame == False:
         print("SHIPS PLACED\n")
-        battleBoard(board2placed)
+    battleBoard(board2placed)
 
     while True:
-        start=input("\nPress enter to start")
+        start = input("\nPress enter to start")
         if start == "":
             os.system('clear')
             break
 
-    turn_count=0
-    player=1
-    if_winning=0
+    turn_count = 0
+    player = 1
+    if_winning = 0
     while if_winning == 0:
         while player == 1:
             shooting_phase(player_one, p2_s1, p2_s2, p2_s3, p2_s4, p2_s3v2, board2)
@@ -426,8 +428,8 @@ def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board):
     global destroyed
     while True:
         try:
-            x_coordinate=int(input("\nChoose an x coordinate to shoot at:"))
-            y_coordinate=int(input("Choose a y coordinate to shoot at:"))
+            x_coordinate = int(input("\nChoose an x coordinate to shoot at:"))
+            y_coordinate = int(input("Choose a y coordinate to shoot at:"))
         except ValueError:
             print("Wrong input")
             continue
@@ -445,8 +447,8 @@ def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board):
     battleBoard(board)
     if destroyed == 1:
         print("\nShip destroyed\n")
-        destroyed=0
-    passTurn=input("\nPress enter to pass turn")
+        destroyed = 0
+    passTurn = input("\nPress enter to pass turn")
     if passTurn == "":
         os.system('clear')
 
@@ -470,11 +472,11 @@ def winning(player_name, ship1, ship2, ship3, ship4, ship5, turn_counter):
         """)
         while True:
             print("\n\npress enter to continue")
-            g=getchfile.getch()
+            g = getchfile.getch()
             if ord(g) == 13:
                 break
 
-        f=open("scoreboard.txt", "a")
+        f = open("scoreboard.txt", "a")
         f.write(player_name + "," + str(int(turn_counter / 2)) + "\n")
         f.close
         return True
@@ -482,10 +484,10 @@ def winning(player_name, ship1, ship2, ship3, ship4, ship5, turn_counter):
 
 while True:
 
-    board1=[]
-    board1placed=[]
-    board2=[]
-    board2placed=[]
+    board1 = []
+    board1placed = []
+    board2 = []
+    board2placed = []
     for i in range(11):
         board1.append([])
         board2.append([])
@@ -498,21 +500,21 @@ while True:
             # to up from here is the gameboard creating
             board2placed[i].append("~")
 
-    p1_s1=[[]]  # ----------------------------------------------------------
-    p1_s2=[[], []]  # Coordinates of the first player's ships
-    p1_s3=[[], [], []]
-    p1_s3v2=[[], [], []]         #
+    p1_s1 = [[]]  # ----------------------------------------------------------
+    p1_s2 = [[], []]  # Coordinates of the first player's ships
+    p1_s3 = [[], [], []]
+    p1_s3v2 = [[], [], []]         #
     # ----------------------------------------------------------
-    p1_s4=[[], [], [], []]
+    p1_s4 = [[], [], [], []]
 
-    p2_s1=[[]]  # ----------------------------------------------------------
-    p2_s2=[[], []]  # Coordinates of the second player's ships
-    p2_s3=[[], [], []]
-    p2_s3v2=[[], [], []]
+    p2_s1 = [[]]  # ----------------------------------------------------------
+    p2_s2 = [[], []]  # Coordinates of the second player's ships
+    p2_s3 = [[], [], []]
+    p2_s3v2 = [[], [], []]
     # ----------------------------------------------------------
-    p2_s4=[[], [], [], []]
+    p2_s4 = [[], [], [], []]
 
-    destroyed=0
-    player=1  # This helps to change turns
+    destroyed = 0
+    player = 1  # This helps to change turns
 
     menu()
