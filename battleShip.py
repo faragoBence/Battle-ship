@@ -215,8 +215,9 @@ def battleBoard(p):  # printing out the game board
                 sys.stdout.write(str(p[i][j]) + ' ')
 
 
-def shooting(board, ship, x_coordinate, y_coordinate):  # this function handles shooting
+def shooting(board, ship, x_coordinate, y_coordinate, computergame):  # this function handles shooting
     global destroyed
+
     shootArray = []
     shootArray.append(int(x_coordinate))
     shootArray.append(int(y_coordinate))
@@ -224,9 +225,18 @@ def shooting(board, ship, x_coordinate, y_coordinate):  # this function handles 
         if ship[c] == shootArray:
             ship.pop(c)
             board[y_coordinate][x_coordinate] = "X"
-            print(len(ship))
+
+            if computergame == True:
+                f = open("cpushot.txt", "w")
+                f.write(((str(shootArray).strip("[")).strip("]")).replace(" ", ""))
+                f.close()
+
             if len(ship) == 0:
                 destroyed = 1
+                if computergame == True:
+                    f = open("cpushot.txt", "w")
+                    f.write("")
+                    f.close()
             break
 
     if board[y_coordinate][x_coordinate] == "~":
@@ -399,16 +409,16 @@ def pvp(computergame):
     turn_count = 0
     player = 1
     if_winning = 0
-    while if_winning == 0:
+    while True:
         while player == 1:
-            shooting_phase(player_one, p2_s1, p2_s2, p2_s3, p2_s4, p2_s3v2, board2,human)
+            shooting_phase(player_one, p2_s1, p2_s2, p2_s3, p2_s4, p2_s3v2, board2, human)
             if winning(player_one, p2_s1, p2_s2, p2_s3, p2_s4, p2_s3v2, turn_count):
                 if_winning += 1
                 break
             player += 1
             turn_count += 1
         while player == 2:
-            shooting_phase(player_two, p1_s1, p1_s2, p1_s3, p1_s4, p1_s3v2, board1,computergame)
+            shooting_phase(player_two, p1_s1, p1_s2, p1_s3, p1_s4, p1_s3v2, board1, computergame)
             if winning(player_two, p1_s1, p1_s2, p1_s3, p1_s4, p1_s3v2, turn_count):
                 if_winning += 1
                 break
@@ -438,24 +448,64 @@ def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board, comput
                 print("Wrong input")
                 continue
         else:
-            x_coordinate = random.randint(1, 10)
-            y_coordinate = random.randint(1, 10)
-            if board[y_coordinate][x_coordinate] == "X" or board[y_coordinate][x_coordinate] == "O":
-                continue
+            f = open("cpushot.txt", "r")
+            k = f.read()
+            f.close()
+
+            if len(k) == 0:
+                x_coordinate = random.randint(1, 10)
+                y_coordinate = random.randint(1, 10)
+            else:
+                prev_c_shot = k.split(",")
+                x_coordinate = int(prev_c_shot[0])
+                y_coordinate = int(prev_c_shot[1])
+
+                if board[x_coordinate] != 10:
+                    if board[y_coordinate][x_coordinate - 1] == "X":
+                        x_coordinate += 1
+                if board[x_coordinate] != 0:
+                    if board[y_coordinate][x_coordinate + 1] == "X":
+                        x_coordinate -= 1
+                if board[y_coordinate] != 10:
+                    if board[y_coordinate - 1][x_coordinate] == "X":
+                        y_coordinate += 1
+                if board[x_coordinate] != 0:
+                    if board[y_coordinate + 1][x_coordinate] == "X":
+                        y_coordinate -= 1
+
+                if board[x_coordinate] != 0:
+                    if board[y_coordinate][x_coordinate - 1] != "X" and board[y_coordinate][x_coordinate - 1] != "O":
+                        x_coordinate -= 1
+                if board[x_coordinate] != 10:
+                    if board[y_coordinate][x_coordinate + 1] != "X" and board[y_coordinate][x_coordinate + 1] != "O":
+                        x_coordinate += 1
+                if board[y_coordinate] != 0:
+                    if board[y_coordinate - 1][x_coordinate] != "X" and board[y_coordinate - 1][x_coordinate] != "O":
+                        y_coordinate -= 1
+                if board[y_coordinate] != 10:
+                    if board[y_coordinate + 1][x_coordinate] != "X" and board[y_coordinate + 1][x_coordinate] != "O":
+                        y_coordinate += 1
+
+            # if board[y_coordinate][x_coordinate] == "X" or board[y_coordinate][x_coordinate] == "O":
+            #    continue
 
         if (x_coordinate > 10 or x_coordinate < 0) or (y_coordinate < 0 or y_coordinate > 10):
             print("Wrong input")
             continue
         break
-    shooting(board, ship1, x_coordinate, y_coordinate)
-    shooting(board, ship2, x_coordinate, y_coordinate)
-    shooting(board, ship3, x_coordinate, y_coordinate)
-    shooting(board, ship4, x_coordinate, y_coordinate)
-    shooting(board, ship5, x_coordinate, y_coordinate)
+    shooting(board, ship1, x_coordinate, y_coordinate, computergame)
+    shooting(board, ship2, x_coordinate, y_coordinate, computergame)
+    shooting(board, ship3, x_coordinate, y_coordinate, computergame)
+    shooting(board, ship4, x_coordinate, y_coordinate, computergame)
+    shooting(board, ship5, x_coordinate, y_coordinate, computergame)
     os.system('clear')
     battleBoard(board)
     if destroyed == 1:
         print("\nShip destroyed\n")
+        if computergame == True:
+            f = open("cpushot.txt", "w")
+            f.write("")
+            f.close()
         destroyed = 0
     if computergame == True:
         print("\nCPU's shot")
@@ -494,6 +544,10 @@ def winning(player_name, ship1, ship2, ship3, ship4, ship5, turn_counter):
 
 
 while True:
+
+    f = open("cpushot.txt", "w")
+    f.write("")
+    f.close()
 
     board1 = []
     board1placed = []
