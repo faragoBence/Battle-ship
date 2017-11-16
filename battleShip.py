@@ -508,7 +508,7 @@ def shooting_phase(player_name, ship1, ship2, ship3, ship4, ship5, board, comput
             f.close()
         destroyed = 0
     if computergame == True:
-        print("\nCPU's shot")
+        print("\nCPU's shot at "+str(x_coordinate)+","+str(y_coordinate))
     passTurn = input("\nPress enter to pass turn")
     if passTurn == "":
         os.system('clear')
