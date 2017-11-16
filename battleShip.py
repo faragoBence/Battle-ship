@@ -268,7 +268,7 @@ def scoreBoard():
 
 def menu():
     menuList = ["x", " ", " ", " "]
-    menuNames = ["Player vs Player", "Player vs AI(Coming soon)", "scoreboard", "exit"]
+    menuNames = ["Player vs Player", "Player vs AI", "scoreboard", "exit"]
     while True:
         os.system("clear")
         menuPrint(menuList, menuNames)
